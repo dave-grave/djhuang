@@ -1,0 +1,25 @@
+---
+title: "Testing my Markdown Engine"
+date: "2025-12-28"
+description: "A test post to check if KaTeX and Styling work."
+---
+
+# This is a Header
+
+If this text is big and bold, the **Tailwind Typography** (prose) plugin is working.
+
+### Math Test (KaTeX)
+
+Here is an inline equation: $a^2 + b^2 = c^2$.
+
+And here is a display equation:
+
+$$
+I = \int_{0}^{\infty} e^{-x^2} dx
+$$
+
+### Code Test
+
+```javascript
+console.log("If this has colors, syntax highlighting is active!");
+```
