@@ -12,7 +12,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #4d5461;
+    --background: #383836;
     --foreground: #ededed;
   }
 }
@@ -29,4 +29,56 @@ pre {
 
 code {
   font-family: "Fira Code", "Courier New", monospace;
+}
+
+/* Typography: headers use Helvetica (bold), paragraphs use Comic Sans */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.title {
+  font-family: "Helvetica", Arial, sans-serif;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-top: 1.2rem;
+  margin-bottom: 0.6rem;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: 2.25rem;
+}
+h2 {
+  font-size: 1.75rem;
+}
+h3 {
+  font-size: 1.5rem;
+}
+h4 {
+  font-size: 1.25rem;
+}
+h5 {
+  font-size: 1.1rem;
+}
+h6 {
+  font-size: 1rem;
+}
+
+p {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  color: var(--foreground);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+/* Small helper: ensure strong/emphasis remain legible */
+strong,
+b {
+  font-weight: 700;
+}
+em,
+i {
+  font-style: italic;
 }

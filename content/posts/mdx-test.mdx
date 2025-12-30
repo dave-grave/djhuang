@@ -1,0 +1,45 @@
+---
+title: "The Power of MDX"
+date: "2025-12-29"
+description: "Testing React components and math inside Markdown."
+---
+
+# Hello from MDX!
+
+This is a standard paragraph. But unlike normal Markdown, I can now use **React components** directly in this file.
+
+### 1. Image Test
+
+This image uses the Next.js `<Image />` component via our mapping. Make sure you have an image at `public/test-image.jpg` or use a placeholder URL.
+
+<div className="flex justify-center py-4">
+  ![A beautiful test image](/headshot-test.png)
+</div>
+
+<div className="flex justify-center py-4">
+  ![A beautiful test image](/12345.png)
+</div>
+
+### 2. Math Test (KaTeX)
+
+The pipeline should still handle math perfectly:
+
+When $a \ne 0$, there are two solutions to $ax^2 + bx + c = 0$ and they are:
+
+$$
+x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}
+$$
+
+### 3. Code Highlighting
+
+```typescript
+interface Developer {
+  name: string;
+  lovesMDX: boolean;
+}
+
+const me: Developer = {
+  name: "Dave",
+  lovesMDX: true,
+};
+```

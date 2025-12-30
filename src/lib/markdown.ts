@@ -34,4 +34,27 @@ export async function getPostContent(slug: string) {
   return { slug, contentHtml, title: data.title, date: data.date, ...data };
 }
 
+export async function getMdxPostContent(slug: string) {
+  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+
+  const document = await fs.readFile(fullPath, "utf-8");
+
+  const { data, content } = matter(document);
+
+  // const mdxSource = await serialize(content, {
+  //   mdxOptions: {
+  //     remarkPlugins: [remarkMath],
+  //     rehypePlugins: [rehypeKatex, rehypeHighlight],
+  //     format: "mdx",
+  //   },
+  //   scope: data,
+  // });
+
+  return {
+    slug,
+    content,
+    frontmatter: data,
+  };
+}
+
 export async function getAllPosts() {}

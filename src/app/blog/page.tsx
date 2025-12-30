@@ -16,8 +16,10 @@ export default async function BlogPage() {
         <li>
           <Link href="blog/test-post">Post 2</Link>
         </li>
-        <li>Post </li>
-        <li>Post </li>
+        <li>
+          <Link href="blog/mdx-test">Post 3</Link>
+        </li>
+        <li>Post 4</li>
       </ul>
     </div>
   );
