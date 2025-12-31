@@ -15,7 +15,7 @@ export default async function BlogPage() {
   const filenames = await fs.readdir(path.join(process.cwd(), "content/posts"));
 
   // Read and parse each post's frontmatter
-  const posts = await Promise.all(
+  const unsortedPosts = await Promise.all(
     filenames.map(async (filename: string) => {
       const content = await fs.readFile(
         path.join(process.cwd(), "content/posts", filename),
@@ -40,6 +40,11 @@ export default async function BlogPage() {
     })
   );
 
+  // Sort posts by newest first
+  const posts = unsortedPosts.sort((a, b) =>
+    a.frontmatter.date < b.frontmatter.date ? 1 : -1
+  );
+
   return (
     <>
       {posts ? (
@@ -54,8 +59,12 @@ export default async function BlogPage() {
                 >
                   {frontmatter.title}
                 </Link>
-                <p className="text-gray-600">{frontmatter.date}</p>
-                <p>{frontmatter.description}</p>
+                <p className="text-sm! text-white/60! mb-1!">
+                  {frontmatter.description}
+                </p>
+                <p className="text-sm! text-white-60! italic!">
+                  {frontmatter.date}
+                </p>
               </li>
             ))}
           </ul>
