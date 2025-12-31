@@ -11,12 +11,10 @@ import rehypeImgSize from "rehype-img-size";
 import rehypeUnwrapImages from "rehype-unwrap-images";
 
 export default async function BlogPage() {
+  // Read all filenames from the posts directory
   const filenames = await fs.readdir(path.join(process.cwd(), "content/posts"));
 
-  // const slugs = filenames
-  // .filter((file: string) => file.endsWith(".mdx"))
-  // .map((file: string) => file.replace(/\.mdx$/, ""));
-  // console.log("Slugs:", slugs);
+  // Read and parse each post's frontmatter
   const posts = await Promise.all(
     filenames.map(async (filename: string) => {
       const content = await fs.readFile(
@@ -42,22 +40,29 @@ export default async function BlogPage() {
     })
   );
 
-  console.log("Posts:", posts);
-
   return (
     <>
-      {/* {posts ? (
-        posts.map(({ slug, frontmatter }) => {
-          <div>
-            <Link href={`/blog/${slug}`}>{slug}</Link>
-          </div>;
-          <div>
-            <p>hello</p>
-          </div>;
-        })
+      {posts ? (
+        <div>
+          <h1 className="text-4xl font-bold mb-8">Blog</h1>
+          <ul>
+            {posts.map(({ slug, frontmatter }) => (
+              <li key={slug} className="mb-4">
+                <Link
+                  href={`/blog/${slug}`}
+                  className="text-2xl text-blue-600 hover:underline"
+                >
+                  {frontmatter.title}
+                </Link>
+                <p className="text-gray-600">{frontmatter.date}</p>
+                <p>{frontmatter.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : (
         <div>Loading</div>
-      )} */}
+      )}
     </>
   );
 }

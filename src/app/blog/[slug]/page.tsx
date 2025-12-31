@@ -76,7 +76,7 @@ export default async function BlogPostPage({
   });
 
   return (
-    <article className="max-w-3xl mx-auto py-10 px-4">
+    <article className="min-w-2xl max-w-3xl mx-auto py-10 px-4">
       <header className="mb-8 border-b-2 border-gray-200/50 pb-4">
         <h1 className="text-4xl! font-bold! mb-2! py-2! italic!">
           {data.frontmatter.title}
