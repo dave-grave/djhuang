@@ -1,35 +1,30 @@
 import Image from "next/image";
+import type { MDXComponents as MDXComponentsType } from "mdx/types";
 
-const MDXComponents = {
-  p: (props: any) => {
-    // Check if p contains an image, and if so center it.
-    // This is because MDX wraps images in <p> by default.
-    const isImage =
-      props.children?.type === "img" ||
-      (Array.isArray(props.children) &&
-        props.children.some((child: any) => child.type === "img"));
+type ImgProps = React.ComponentPropsWithoutRef<"img"> & {
+  // rehype-img-size may add numeric width/height or strings — accept both
+  width?: number | string;
+  height?: number | string;
+};
 
-    if (isImage) {
-      return <div className="flex justify-center">{props.children}</div>;
-    }
-    // Otherwise render a normal paragraph
-    return (
-      <p className="mb-6 leading-relaxed text-gray-800 dark:text-gray-200">
-        {props.children}
-      </p>
-    );
-  },
-
-  img: (props: any) => {
+const MDXComponents: MDXComponentsType = {
+  img: (props: ImgProps) => {
     return (
       <figure className="flex flex-col items-center">
         <div className="">
           <Image
-            {...props}
-            // If rehype-img-size is working, props.width/height will be used
-            // Otherwise, we provide defaults
-            width={props.width || 1200}
-            height={props.height || 675}
+            // next/image expects numeric width/height; coerce if strings
+            src={props.src as string}
+            width={
+              typeof props.width === "string"
+                ? parseInt(props.width, 10)
+                : props.width || 1200
+            }
+            height={
+              typeof props.height === "string"
+                ? parseInt(props.height, 10)
+                : props.height || 675
+            }
             alt={props.alt || "Blog post image"}
             className="rounded-lg shadow-lg block h-auto w-full object-cover border dark:border-gray-200 border-gray-800"
           />
