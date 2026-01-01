@@ -1,6 +1,15 @@
 import path from "path";
 import fs from "fs/promises";
-import matter from "gray-matter";
+
+import { compileMDX } from "next-mdx-remote/rsc";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import rehypeHighlight from "rehype-highlight";
+import rehypeImgSize from "rehype-img-size";
+import rehypeUnwrapImages from "rehype-unwrap-images";
+
+import MDXComponents from "@/components/MDXComponents";
+import { PostMetaData } from "@/types/types";
 
 const postsDirectory = path.join(process.cwd(), "content/posts");
 
@@ -29,10 +38,31 @@ const postsDirectory = path.join(process.cwd(), "content/posts");
 // }
 
 // Get raw MDX post content from file system
-export async function getMdxPostContent(slug: string) {
+export async function getPostContent(slug: string) {
   const fullPath = path.join(postsDirectory, `${slug}.mdx`);
 
-  return await fs.readFile(fullPath, "utf-8");
+  // Get raw MDX content from file system
+  const document = await fs.readFile(fullPath, "utf-8");
+
+  // Compile MDX content to React components
+  const data = await compileMDX<PostMetaData>({
+    source: document,
+    options: {
+      parseFrontmatter: true,
+      mdxOptions: {
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [
+          rehypeUnwrapImages,
+          rehypeKatex,
+          rehypeHighlight,
+          [rehypeImgSize, { dir: "public" }],
+        ],
+      },
+    },
+    components: MDXComponents,
+  });
+
+  return data;
 }
 
 export async function getAllPosts() {}

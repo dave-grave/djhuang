@@ -1,16 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
-import MDXComponents from "@/components/MDXComponents";
-import { compileMDX } from "next-mdx-remote/rsc";
-
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import rehypeHighlight from "rehype-highlight";
-import rehypeImgSize from "rehype-img-size";
-import rehypeUnwrapImages from "rehype-unwrap-images";
-
 import Footer from "@/components/Footer";
-import { PostMetaData } from "@/types/types";
+import { getPostContent } from "@/lib/markdown";
 
 // Generate dynamic metadata for each blog post
 export async function generateMetadata({
@@ -20,28 +9,10 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
 
-  const fullPath = path.join(process.cwd(), "content/posts", `${slug}.mdx`);
+  const data = await getPostContent(slug);
 
-  const document = await fs.readFile(fullPath, "utf-8");
-
-  const { frontmatter } = await compileMDX<PostMetaData>({
-    source: document,
-    options: {
-      parseFrontmatter: true,
-      mdxOptions: {
-        remarkPlugins: [remarkMath],
-        rehypePlugins: [
-          rehypeUnwrapImages,
-          rehypeKatex,
-          rehypeHighlight,
-          [rehypeImgSize, { dir: "public" }],
-        ],
-      },
-    },
-  });
-  console.log("Frontmatter:", frontmatter);
   return {
-    title: frontmatter.title,
+    title: data.frontmatter.title,
   };
 }
 
@@ -52,28 +23,30 @@ export default async function BlogPostPage({
 }) {
   const { slug } = await params;
 
-  const fullPath = path.join(process.cwd(), "content/posts", `${slug}.mdx`);
+  // const fullPath = path.join(process.cwd(), "content/posts", `${slug}.mdx`);
 
-  // Get raw MDX content from file system
-  const document = await fs.readFile(fullPath, "utf-8");
+  // // Get raw MDX content from file system
+  // const document = await fs.readFile(fullPath, "utf-8");
 
-  // Compile MDX content to React components
-  const data = await compileMDX<PostMetaData>({
-    source: document,
-    options: {
-      parseFrontmatter: true,
-      mdxOptions: {
-        remarkPlugins: [remarkMath],
-        rehypePlugins: [
-          rehypeUnwrapImages,
-          rehypeKatex,
-          rehypeHighlight,
-          [rehypeImgSize, { dir: "public" }],
-        ],
-      },
-    },
-    components: MDXComponents,
-  });
+  // // Compile MDX content to React components
+  // const data = await compileMDX<PostMetaData>({
+  //   source: document,
+  //   options: {
+  //     parseFrontmatter: true,
+  //     mdxOptions: {
+  //       remarkPlugins: [remarkMath],
+  //       rehypePlugins: [
+  //         rehypeUnwrapImages,
+  //         rehypeKatex,
+  //         rehypeHighlight,
+  //         [rehypeImgSize, { dir: "public" }],
+  //       ],
+  //     },
+  //   },
+  //   components: MDXComponents,
+  // });
+
+  const data = await getPostContent(slug);
 
   return (
     <article className="min-w-2xl max-w-3xl mx-auto py-10 px-4">
