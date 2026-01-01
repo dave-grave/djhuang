@@ -1,63 +1,54 @@
 import Link from "next/link";
 import fs from "fs/promises";
 import path from "path";
-import { compileMDX } from "next-mdx-remote/rsc";
-
-import remarkMath from "remark-math";
-import { PostMetaData } from "@/types/types";
-import rehypeKatex from "rehype-katex";
-import rehypeHighlight from "rehype-highlight";
-import rehypeImgSize from "rehype-img-size";
-import rehypeUnwrapImages from "rehype-unwrap-images";
+import { getPostContent } from "@/lib/markdown";
 
 export default async function BlogPage() {
+  // Read all filenames from the posts directory
   const filenames = await fs.readdir(path.join(process.cwd(), "content/posts"));
 
-  // const slugs = filenames
-  // .filter((file: string) => file.endsWith(".mdx"))
-  // .map((file: string) => file.replace(/\.mdx$/, ""));
-  // console.log("Slugs:", slugs);
-  const posts = await Promise.all(
+  // Read and parse each post's frontmatter
+  const unsortedPosts = await Promise.all(
     filenames.map(async (filename: string) => {
-      const content = await fs.readFile(
-        path.join(process.cwd(), "content/posts", filename),
-        "utf-8"
-      );
-      const { frontmatter } = await compileMDX<PostMetaData>({
-        source: content,
-        options: {
-          parseFrontmatter: true,
-          mdxOptions: {
-            remarkPlugins: [remarkMath],
-            rehypePlugins: [
-              rehypeUnwrapImages,
-              rehypeKatex,
-              rehypeHighlight,
-              [rehypeImgSize, { dir: "public" }],
-            ],
-          },
-        },
-      });
-      return { slug: filename.replace(/\.mdx$/, ""), frontmatter };
+      const slug = filename.replace(/\.mdx$/, "");
+      const data = await getPostContent(slug);
+
+      return { slug, frontmatter: data.frontmatter };
     })
   );
 
-  console.log("Posts:", posts);
+  // Sort posts by newest first
+  const posts = unsortedPosts.sort((a, b) =>
+    a.frontmatter.date < b.frontmatter.date ? 1 : -1
+  );
 
   return (
     <>
-      {/* {posts ? (
-        posts.map(({ slug, frontmatter }) => {
-          <div>
-            <Link href={`/blog/${slug}`}>{slug}</Link>
-          </div>;
-          <div>
-            <p>hello</p>
-          </div>;
-        })
+      {posts ? (
+        <div>
+          <h1 className="text-4xl font-bold mb-8">Blog</h1>
+          <ul>
+            {posts.map(({ slug, frontmatter }) => (
+              <li key={slug} className="mb-4">
+                <Link
+                  href={`/blog/${slug}`}
+                  className="text-2xl text-blue-300 hover:underline"
+                >
+                  {frontmatter.title}
+                </Link>
+                <p className="text-sm! text-white/60! mb-1!">
+                  {frontmatter.description}
+                </p>
+                <p className="text-sm! text-white-60! italic!">
+                  {frontmatter.date}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : (
         <div>Loading</div>
-      )} */}
+      )}
     </>
   );
 }
