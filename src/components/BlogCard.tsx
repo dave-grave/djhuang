@@ -18,7 +18,7 @@ export default function BlogCard({
       <article className="w-full max-w-3xl bg-white/5 px-6 py-2 rounded-lg shadow-sm max-h-36 overflow-hidden transform transition-transform duration-200 hover:scale-105 hover:shadow-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
         <header className="flex items-center justify-between gap-4 flex-wrap">
           <h2 className="text-xl font-semibold mb-0 min-w-0 flex-1">
-            <span className="font-[Helvetica]! block! navigation-link hover:underline! truncate">
+            <span className="block! hover:underline! navigation-link truncate">
               {title}
             </span>
           </h2>

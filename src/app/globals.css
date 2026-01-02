@@ -114,10 +114,6 @@ p {
   line-height: 1.6;
 }
 
-span {
-  font-family: "Comic Sans MS", "Comic Sans", serif;
-}
-
 /* Small helper: ensure strong/emphasis remain legible */
 strong,
 b {
@@ -185,4 +181,8 @@ i {
 
 .navigation-link:hover {
   color: var(--text-link);
+}
+
+.navigation-text {
+  font-family: "Comic Sans MS", "Comic Sans", serif;
 }

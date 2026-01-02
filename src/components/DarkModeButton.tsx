@@ -42,7 +42,9 @@ export default function DarkModeButton() {
       className="items-center"
       onClick={() => setTheme((v) => (v === "dark" ? "light" : "dark"))}
     >
-      <span>{theme === "dark" ? "light mode" : "dark mode"}</span>
+      <span className="darkmode-button navigation-text">
+        {theme === "dark" ? "light mode" : "dark mode"}
+      </span>
     </button>
   );
 }
