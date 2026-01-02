@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import DarkModeButton from "./DarkModeButton";
 
 function handleDarkMode() {
   console.log("toggled dark mode");
@@ -15,33 +16,35 @@ export default function Header() {
       >
         <ul className="flex gap-4">
           <li>
-            <Link href="/" className="hover:underline">
-              home
+            <Link href="/" className="nav-link">
+              <span className="nav-link-text">home</span>
             </Link>
           </li>
           <li>
-            <Link href="/art" className="hover:underline">
-              art
+            <Link href="/art" className="nav-link">
+              <span className="nav-link-text">art</span>
             </Link>
           </li>
           <li>
-            <Link href="/blog" className="hover:underline">
-              blog
+            <Link href="/blog" className="nav-link">
+              <span className="nav-link-text">blog</span>
             </Link>
           </li>
           <li>
-            <Link href="/bucket" className="hover:underline">
-              bucket
+            <Link href="/bucket" className="nav-link">
+              <span className="nav-link-text">bucket</span>
             </Link>
           </li>
           <li>
-            <Link href="/extra" className="hover:underline">
-              extra
+            <Link href="/extra" className="nav-link">
+              <span className="nav-link-text">extra</span>
             </Link>
           </li>
         </ul>
 
-        <button onClick={() => handleDarkMode()}>dark mode</button>
+        <div className="nav-button">
+          <DarkModeButton />
+        </div>
       </nav>
     </header>
   );

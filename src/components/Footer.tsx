@@ -11,7 +11,7 @@ export default function Footer({ prevPage, href }: FooterProps) {
       <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <Link
           href={href}
-          className="text-gray-500 hover:text-blue-200 transition-colors flex items-center gap-2 group"
+          className="text-gray-500 hover:text-blue-800 transition-colors flex items-center gap-2 group"
         >
           <span className="group-hover:-translate-x-1 transition-transform">
             ←

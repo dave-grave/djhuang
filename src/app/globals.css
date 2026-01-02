@@ -1,20 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f9f3de;
-  --foreground: #dee5f9;
+  --background: #dee5f9;
+  --foreground: #021933;
+}
+
+.dark {
+  --background: #383836;
+  --foreground: #ededed;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #383836;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -67,10 +65,14 @@ h6 {
 }
 
 p {
-  font-family: "Comic Sans MS", "Comic Sans";
+  font-family: "Comic Sans MS", "Comic Sans", serif;
   color: var(--foreground);
   margin-bottom: 1rem;
   line-height: 1.6;
+}
+
+span {
+  font-family: "Comic Sans MS", "Comic Sans", serif;
 }
 
 /* Small helper: ensure strong/emphasis remain legible */
@@ -81,4 +83,51 @@ b {
 em,
 i {
   font-style: italic;
+}
+
+/* Nav link underline animation */
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  color: var(--foreground);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, #60a5fa, #7c3aed);
+  transition: width 200ms ease;
+}
+
+.nav-link:hover::after,
+.nav-link:focus::after {
+  width: 100%;
+}
+
+.nav-link-text {
+  text-decoration: none;
+}
+
+/* Button animation wrapper */
+.nav-button button {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.nav-button button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.nav-button button:active {
+  transform: translateY(0);
+}
+
+/* utility: theme-aware blue text */
+.text-blue {
+  color: var(--text-blue) !important;
 }
