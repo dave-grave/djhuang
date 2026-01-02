@@ -2,42 +2,47 @@
 import { useEffect, useState } from "react";
 
 export default function DarkModeButton() {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-    // Initialize from localStorage or system preference
-    try {
-      const stored = localStorage.getItem("theme");
-      if (stored) return stored === "dark";
-    } catch {}
-    if (typeof window !== "undefined" && window.matchMedia) {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    }
-    return false;
-  });
+  const [theme, setTheme] = useState<string>("");
 
-  // Apply class and persist whenever it changes
+  // set initial theme based on system preference
   useEffect(() => {
-    const root = document.documentElement;
-    if (isDarkMode) {
-      root.classList.add("dark");
-      try {
-        localStorage.setItem("theme", "dark");
-      } catch {}
-    } else {
-      root.classList.remove("dark");
-      try {
-        localStorage.setItem("theme", "light");
-      } catch {}
+    const preferredTheme =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    setTheme(preferredTheme);
+    document.body.classList.add(preferredTheme);
+  }, []);
+
+  // update theme on toggle
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+
+    const selectedTheme = localStorage.getItem("theme");
+    document.body.classList.remove("light", "dark");
+
+    if (selectedTheme) {
+      document.body.classList.add(selectedTheme);
     }
-    console.log("isDarkMode:", isDarkMode); // appears in browser console
-  }, [isDarkMode]);
+
+    // defaults to system preference if no theme is set
+    else if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.add("light");
+    }
+  }, [theme]);
 
   return (
     <button
       className="items-center"
-      aria-pressed={isDarkMode}
-      onClick={() => setIsDarkMode((v) => !v)}
+      onClick={() => setTheme((v) => (v === "dark" ? "light" : "dark"))}
     >
-      <span>{isDarkMode ? "light mode" : "dark mode"}</span>
+      <span>{theme === "dark" ? "light mode" : "dark mode"}</span>
     </button>
   );
 }

@@ -1,18 +1,61 @@
 @import "tailwindcss";
 
-:root {
-  --background: #dee5f9;
-  --foreground: #021933;
-}
-
-.dark {
-  --background: #383836;
-  --foreground: #ededed;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-link: var(--text-link);
+
+  --color-border: var(--border);
+}
+
+@layer base {
+  /* Default (light) theme variables pulled from Tailwind's theme colors */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: theme("colors.gray.50");
+      --foreground: theme("colors.gray.900");
+
+      --text-primary: theme("colors.gray.900");
+      --text-secondary: theme("colors.indigo.700");
+      --text-tertiary: theme("colors.purple.700");
+      --text-link: theme("colors.blue.600");
+
+      --border: theme("colors.gray.200");
+      --text-blue: theme("colors.blue.600");
+    }
+  }
+
+  /* Explicit light class (optional) */
+  .light {
+    --background: theme("colors.gray.50");
+    --foreground: theme("colors.gray.900");
+
+    --text-primary: theme("colors.gray.900");
+    --text-secondary: theme("colors.indigo.700");
+    --text-tertiary: theme("colors.purple.700");
+    --text-link: theme("colors.blue.600");
+
+    --border: theme("colors.gray.200");
+    --text-blue: theme("colors.blue.600");
+  }
+
+  /* Dark theme variables (when .dark class is present on root) */
+  .dark {
+    --background: theme("colors.gray.900");
+    --foreground: theme("colors.gray.100");
+
+    --text-primary: theme("colors.gray.100");
+    --text-secondary: theme("colors.indigo.300");
+    --text-tertiary: theme("colors.purple.300");
+    --text-link: theme("colors.blue.300");
+
+    --border: theme("colors.gray.700");
+    --text-blue: theme("colors.blue.300");
+  }
 }
 
 body {
@@ -130,4 +173,16 @@ i {
 /* utility: theme-aware blue text */
 .text-blue {
   color: var(--text-blue) !important;
+}
+
+.meta-text-description {
+  color: var(--text-secondary);
+}
+
+.meta-text-date {
+  color: var(--text-tertiary);
+}
+
+.navigation-link:hover {
+  color: var(--text-link);
 }

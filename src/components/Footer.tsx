@@ -7,11 +7,14 @@ interface FooterProps {
 
 export default function Footer({ prevPage, href }: FooterProps) {
   return (
-    <footer className="mt-12 mx-4 py-8 border-t dark:border-gray-200 border-gray-800">
+    <footer
+      className="mt-12 mx-4 py-8 border-t"
+      style={{ borderColor: "var(--border)" }}
+    >
       <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <Link
           href={href}
-          className="text-gray-500 hover:text-blue-800 transition-colors flex items-center gap-2 group"
+          className="navigation-link text-secondary! transition-colors flex items-center gap-2 group"
         >
           <span className="group-hover:-translate-x-1 transition-transform">
             ←
