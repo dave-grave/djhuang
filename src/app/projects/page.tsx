@@ -1,3 +1,3 @@
 export default function ArtPage() {
-  return <div>Art Page</div>;
+  return <div>Projects Page</div>;
 }
